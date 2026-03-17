@@ -1,70 +1,145 @@
 # Blinkx Beat-Style Product Blueprint (2026)
 
-## Product Positioning
+## Core Product Thesis
 
-**Core promise:** a taste-driven channel of short, highly watchable videos in a lean-back autoplay experience.
+You are not building “YouTube but better.”
+You are building a **programming channel**: a human-curated, autoplaying stream of short videos.
 
-This is not a general upload platform. It is a **curated programming channel** with software around it.
+**Rule:** automate the pipeline, not the taste.
 
 ---
 
-## 1) Homepage Sketch (Lean-Back First)
+## 1) Product Promise
+
+**One narrow promise (pick one):**
+- best short videos on the internet today
+- weird/funny creative clips
+- animation shorts
+- daily 10-minute hand-picked watchlist
+
+**Positioning sentence:**
+> “A taste-driven channel that continuously serves short, highly watchable videos in a lean-back feed.”
+
+---
+
+## 2) Operating Model: What to Automate vs What Stays Human
+
+## Automate (boring + scalable)
+
+### A. Candidate Sourcing
+Let software ingest **100–200 candidate videos/day** from:
+- YouTube (new + niche + trending)
+- Vimeo Staff Picks and filmmaker channels
+- Reddit and film communities
+
+### B. Junk Pre-Filter
+Use hard filters to cut candidate load before human review:
+- duration under 10 minutes
+- baseline quality/engagement thresholds
+- duplicate/repost detection
+- blocked/unsafe domains and rights flags
+
+Target: reduce 100–200 candidates to ~40 reviewable items.
+
+### C. Auto-Tagging
+Use AI/ML tags for programming context:
+- funny
+- weird
+- emotional
+- animation
+- experimental
+
+Why this matters: sequencing relies on tonal contrast.
+
+### D. Draft Editorial Notes
+Generate rough one-line notes automatically, but keep them as drafts.
+Editors rewrite for voice and precision.
+
+### E. Performance Diagnostics
+Track skip/watch behavior and surface alerts like:
+- “High drop-off at position #3”
+- “Collection X loses 25% of viewers after clip 2”
+
+The system reports; editors decide action.
+
+## Keep Human (the actual product)
+
+### A. Final Selection
+Humans decide what gets in the channel.
+No fully automated acceptance.
+
+### B. Sequencing
+Editors program like a DJ, not a librarian:
+- funny -> weird -> emotional -> reset
+- avoid same-tone clustering
+- pace for curiosity and retention
+
+### C. Standards Enforcement
+Reject “pretty good.”
+Average picks in sequence kill sessions quickly.
+
+---
+
+## 3) Weekly Workflow (Practical Loop)
+
+1. Machine finds 100+ candidates
+2. Machine filters to ~40
+3. Editor fast-screens and rejects most
+4. Editor selects 10–20 finalists
+5. Editor sequences for rhythm and contrast
+6. AI drafts notes; editor rewrites
+7. Publish
+8. Behavioral metrics inform next week’s sequencing
+
+---
+
+## 4) Homepage Sketch (Lean-Back First)
 
 ## Top Navigation
 - Logo + tagline (`"Today’s best short videos, hand-picked"`)
 - Sections: Funny, Strange, Animated, Story-Driven, Under 5 Min
-- Search (optional in V1; can be hidden behind `/browse`)
 - Save queue icon
-- Sign in / newsletter
+- Sign in/newsletter
 
 ## Hero / Default State
-- **Primary CTA:** `Play Channel`
+- Primary CTA: `Play Channel`
 - Subtitle: `10 hand-picked picks today · New batch every week`
-- Small trust signal: `Curated by humans. No junk.`
+- Trust signal: `Curated by humans. No junk.`
 
-## Main Playback Experience
-- Full-screen or near full-screen player
-- Right/Bottom metadata panel:
-  - Title
-  - Source (YouTube/Vimeo/creator site)
-  - Duration
-  - Tags
-  - 1-sentence editor note (`"Picked for its opening hook + visual style"`)
+## Playback Experience
+- Full-screen/near full-screen player
+- Metadata pane:
+  - title
+  - source
+  - duration
+  - tags
+  - 1-line editor note
 - Controls:
-  - Next best pick (autoplay on by default)
-  - Save
-  - Share
-  - Add to queue
-  - Open original source
+  - autoplay next best pick
+  - save
+  - queue
+  - share
+  - open original source
 
-## Side Rails / Secondary Modules
-- `Daily 10` list (today’s pack)
-- `Weekly Roundup`
-- `Collections` (e.g., `3 Weird Masterpieces`)
-- `Creator Spotlight`
-
-## Submission + Credibility
-- `Submit your short` form link
-- Clear creator credit and canonical source links
+## Secondary Modules
+- Daily 10
+- Weekly roundup
+- themed collections (`3 Weird Masterpieces`)
+- creator spotlight
+- submit-your-short link
 
 ---
 
-## 2) Data Model (MVP)
-
-Use editor-first ranking and a simple relational schema.
+## 5) Data Model (MVP)
 
 ### videos
 - `id` (uuid)
-- `title`
-- `description`
+- `title`, `description`
 - `duration_seconds`
-- `source_id` (fk)
-- `source_video_url`
-- `embed_url`
+- `source_id` (fk), `source_video_url`, `embed_url`
 - `thumbnail_url`
 - `creator_id` (fk)
-- `published_at` (original publish date)
-- `language`
+- `published_at`
 - `is_active`
 - `created_at`, `updated_at`
 
@@ -82,129 +157,123 @@ Use editor-first ranking and a simple relational schema.
 - `country`
 - `submission_email`
 
-### tags
-- `id`
-- `slug`
-- `label`
+### tags / video_tags
+- tags: `id`, `slug`, `label`
+- bridge: `video_id`, `tag_id`
 
-### video_tags
-- `video_id` (fk)
-- `tag_id` (fk)
-
-### collections
-- `id`
-- `title`
-- `slug`
-- `description`
-- `type` (daily, weekly, themed)
-- `published_at`
-
-### collection_items
-- `collection_id` (fk)
-- `video_id` (fk)
-- `position`
-- `editor_note`
+### collections / collection_items
+- collections: `id`, `title`, `slug`, `type`, `published_at`
+- items: `collection_id`, `video_id`, `position`, `editor_note`
 
 ### editorial_scores
-- `id`
-- `video_id` (fk)
-- `hook_score` (1–5)
-- `originality_score` (1–5)
-- `craft_score` (1–5)
-- `rewatchability_score` (1–5)
-- `brand_fit_score` (1–5)
-- `reviewed_by`
-- `reviewed_at`
-
-### user_events (for analytics)
-- `id`
 - `video_id`
-- `user_id` (nullable)
-- `session_id`
-- `event_type` (view_start, view_25, view_50, complete, save, share, skip)
+- `hook_score`, `originality_score`, `craft_score`, `rewatchability_score`, `brand_fit_score`
+- `reviewed_by`, `reviewed_at`
+
+### ingestion_candidates (automation queue)
+- `id`
+- `discovered_url`
+- `source_platform`
+- `discovered_at`
+- `duration_seconds`
+- `engagement_snapshot_json`
+- `duplicate_hash`
+- `rights_risk_flag`
+- `auto_tags_json`
+- `pipeline_status` (`new`, `filtered_out`, `needs_review`, `selected`, `rejected`)
+
+### user_events
+- `id`, `video_id`, `user_id` (nullable), `session_id`
+- `event_type` (`view_start`, `view_25`, `view_50`, `complete`, `save`, `share`, `skip`)
 - `event_ts`
 
 ---
 
-## 3) MVP Feature List
+## 6) MVP Feature List
 
-## Must-Have (Ship V1)
+## Must-Have (V1)
 1. `Play Channel` autoplay feed with curated ordering
-2. Video card metadata (title, source, duration, tags)
-3. One-sentence editor note on every pick
-4. Category filters (Funny, Strange, Animated, Story-Driven, Under 5 Min)
-5. Save / queue / share actions
-6. Daily and weekly curated collections
-7. Creator credits + source links
-8. Basic submission form (name, link, rights confirmation)
-9. Lightweight admin/editor tool to:
-   - add candidate links
-   - score candidates
-   - publish ordered collections
+2. Metadata + editor note per clip
+3. Filters (Funny / Strange / Animated / Story-Driven / Under 5 Min)
+4. Save, queue, share
+5. Daily + weekly collections
+6. Creator credits + source links
+7. Submission form with rights confirmation
+8. Internal editor console for:
+   - candidate intake
+   - filter results
+   - scoring + accept/reject
+   - sequence ordering + publish
 
-## Should-Have (Soon After)
-1. Personalized resume (`continue watching queue`)
-2. Email digest (`This week’s 10 picks`)
-3. Duplicate/repost detection checks
-4. Moderation workflow states (`candidate`, `approved`, `rejected`, `scheduled`)
+## Should-Have (V1.5)
+1. Continue-watching queue
+2. Weekly email digest
+3. Better duplicate/repost detection
+4. Moderation states (`candidate`, `approved`, `rejected`, `scheduled`)
+5. Drop-off alerts by position in playlist
 
 ## Not in V1
-- Open uploads at scale
-- Creator payout systems
-- Full recommendation engine
-- Long-tail search platform
+- open self-serve uploads at scale
+- creator payouts
+- fully automated recommendation selection
+- broad long-tail search experience
 
 ---
 
-## 4) Editorial Operating System
+## 7) Editorial Standards
 
-## Selection Rubric (hard gates)
-- Strong first 10 seconds
-- Under 5–10 minutes
-- Distinctive craft or perspective
-- Legit source / rights confidence
-- Not low-effort compilation or stolen upload
+## Hard Gates
+- strong first 10 seconds
+- under 5–10 minutes
+- distinctive craft or perspective
+- rights/source confidence
+- no stolen or low-effort compilation content
 
-## Scoring Rubric
-Each video gets 1–5 scores for:
-- Hook
-- Originality
-- Craft
-- Rewatchability
-- Brand fit
+## Scoring
+Score each pick (1–5):
+- hook
+- originality
+- craft
+- rewatchability
+- brand fit
 
-**Programming rule:** avoid same-tone clustering; sequence clips for contrast (funny -> emotional -> weird -> craft-heavy).
-
----
-
-## 5) Suggested Stack
-
-- **Frontend:** Next.js + React player wrappers
-- **Backend:** Supabase/Postgres
-- **CMS/editor tool:** Sanity or internal admin panel
-- **Video delivery model:** embedded sources first (YouTube/Vimeo/licensed)
-- **Ranking strategy:** editor-first, algorithm-second
+## Sequencing Rule
+Optimize rhythm, not just per-video score.
+A great channel feels varied and intentional clip-to-clip.
 
 ---
 
-## 6) Launch Plan (Small but Real)
+## 8) Suggested Stack
 
-### Day-0 Launch Scope
+- Frontend: Next.js/React
+- Backend: Supabase/Postgres
+- CMS/editoring: Sanity or internal admin tool
+- Video approach: embed-first (YouTube/Vimeo/licensed)
+- Ranking: editor-first, algorithm-second
+
+---
+
+## 9) Launch Plan
+
+## Day-0 Scope
+- website
 - 100 hand-picked videos
 - 10 categories
-- One `Play Channel` button
-- One new curated batch every week
-- Email signup
+- one `Play Channel` entry point
+- one fresh curated batch/week
+- email signup
 
-### Success Metrics (first 8 weeks)
-- Autoplay completion rate per session
-- Average videos watched per session
-- Save/share rate per 100 plays
-- Return viewers (7-day)
-- Submission quality acceptance rate
+## Success Metrics (first 8 weeks)
+- session completion rate
+- average videos watched per session
+- save/share rate per 100 plays
+- 7-day return viewers
+- candidate-to-selection rate
+- drop-off by feed position
 
 ---
 
-## One-line Blueprint
+## One-Line Blueprint
 
-Build a **human-curated, autoplaying short-video channel** with fast pacing, strong taste, and near-zero junk.
+Build a **human brain with machine-assisted eyes**:
+automated sourcing/filtering + human selection/sequencing.
