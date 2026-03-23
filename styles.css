@@ -1,0 +1,146 @@
+:root {
+  color-scheme: dark;
+  --bg: #090b10;
+  --panel: #121722;
+  --text: #f3f5f8;
+  --muted: #aab4c8;
+  --accent: #7e7bff;
+  --accent-2: #42d1ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(circle at top, #172038, var(--bg));
+  color: var(--text);
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #273049;
+}
+
+.tagline {
+  color: var(--muted);
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button,
+#open-source {
+  border: 1px solid #2f3a57;
+  background: #161f33;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+button:hover,
+#open-source:hover {
+  border-color: var(--accent-2);
+}
+
+main {
+  padding: 1.2rem 2rem 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.hero,
+.player,
+.secondary,
+.queue-section {
+  background: color-mix(in oklab, var(--panel), black 12%);
+  border: 1px solid #273049;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.hero h2 {
+  margin-top: 0;
+}
+
+.trust {
+  color: var(--accent-2);
+}
+
+#play-channel {
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+  color: #000;
+  border: none;
+  font-weight: 700;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.video-frame {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px dashed #34415f;
+  background: #0d1424;
+  text-align: center;
+}
+
+.metadata p {
+  color: var(--muted);
+  margin: 0.45rem 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.secondary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+
+.secondary article {
+  border: 1px solid #273049;
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+#queue-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
+.active {
+  border-color: var(--accent-2);
+}
+
+@media (max-width: 860px) {
+  .player {
+    grid-template-columns: 1fr;
+  }
+
+  .top-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

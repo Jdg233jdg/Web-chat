@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blinkx Beat MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <div>
+        <h1>Blinkx Beat</h1>
+        <p class="tagline">Today’s best short videos, hand-picked</p>
+      </div>
+      <nav aria-label="Main sections">
+        <button class="filter-btn" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="funny">Funny</button>
+        <button class="filter-btn" data-filter="strange">Strange</button>
+        <button class="filter-btn" data-filter="animated">Animated</button>
+        <button class="filter-btn" data-filter="story-driven">Story-Driven</button>
+        <button class="filter-btn" data-filter="under-5-min">Under 5 Min</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>A taste-driven channel for short, highly watchable videos.</h2>
+        <p>10 hand-picked picks today · New batch every week</p>
+        <p class="trust">Curated by humans. No junk.</p>
+        <button id="play-channel">Play Channel</button>
+      </section>
+
+      <section class="player" aria-live="polite">
+        <div class="video-frame" id="video-frame">
+          <p>Press “Play Channel” to start the curated stream.</p>
+        </div>
+        <aside class="metadata">
+          <h3 id="video-title">No clip selected</h3>
+          <p><strong>Source:</strong> <span id="video-source">—</span></p>
+          <p><strong>Duration:</strong> <span id="video-duration">—</span></p>
+          <p><strong>Tags:</strong> <span id="video-tags">—</span></p>
+          <p><strong>Editor note:</strong> <span id="video-note">—</span></p>
+          <div class="controls">
+            <button id="next-video">Next</button>
+            <button id="save-video">Save</button>
+            <button id="queue-video">Queue</button>
+            <button id="share-video">Share</button>
+            <a id="open-source" href="#" target="_blank" rel="noopener noreferrer">Open Source</a>
+          </div>
+        </aside>
+      </section>
+
+      <section class="secondary">
+        <article>
+          <h4>Daily 10</h4>
+          <p>Editor-curated stream refreshed daily.</p>
+        </article>
+        <article>
+          <h4>Weekly Roundup</h4>
+          <p>Best performing sequence of the week.</p>
+        </article>
+        <article>
+          <h4>Themed Collections</h4>
+          <p>Example: “3 Weird Masterpieces”.</p>
+        </article>
+        <article>
+          <h4>Creator Spotlight</h4>
+          <p>Featured filmmaker and submission pathway.</p>
+        </article>
+      </section>
+
+      <section class="queue-section">
+        <h3>Saved / Queue</h3>
+        <ul id="queue-list"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
